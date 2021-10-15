@@ -1,0 +1,98 @@
+<!-- Progress Table start -->
+<div class="col-12 mt-5">
+  <div class="card">
+    <div class="card-body">
+      <div class="text-right">
+
+        <button type="button" class="btn btn-info" onclick="goToAdd()">Add Product</button>
+
+        <button type="button" class="btn btn-danger" onclick="goLogout()">Logout</button>
+      </div>
+
+
+      {{!-- <h4 class="header-title">Classroom Table</h4> --}}
+      <div class="content">
+        <div class="animated fadeIn">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="card">
+                <div class="card-header">
+                  <strong class="card-title">Yame's Product</strong>
+                </div>
+                <div class="table-stats order-table ov-h">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        {{!-- <th class="serial">#</th> --}}
+                        <th>Name</th>
+                        <th class="imgProduct">Image</th>
+                        <th>Price</th>
+                        <th>Material</th>
+                        <th>Category</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+
+                      {{#each listTable}}
+                      <tr>
+                        {{!-- <td>{{this._id}}</td> --}}
+                        <td><span class="name">{{this.nameProduct}}</span></td>
+                        <td class="imgProduct">
+                          <div class="round-img">
+                            <a href=""><img class="rounded"
+                                src="http://localhost:3000/assets/images/{{this.imgProduct}}" /></a>
+                          </div>
+                        </td>
+
+                        <td><span class="product">{{this.price}} $</span></td>
+                        <td><span class="product">{{this.material}}</span></td>
+                        <td><span class="product">{{this.idType.nameClass}}</span></td>
+                        <td>
+                          <span style="cursor:pointer;" class="badge badge-complete"
+                            onclick="goToEdit('{{this._id}}')">Edit</span>
+                          <span style="cursor:pointer;" class="badge badge-pending"
+                            onclick="removeData('{{this._id}}')">Delete</span>
+                        </td>
+                      </tr>
+
+                      {{/each}}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <!-- .animated -->
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+
+  function goLogout() {
+    window.location.href = '/logout'
+  }
+  function goToAdd() {
+    window.location.href = '/product/add-product'
+  }
+  function goToEdit(id) {
+    window.location.href = '/product/edit-product/' + id
+  }
+  function removeData(id) {
+    $.ajax({
+      type: "DELETE",
+      url: '/product/delete/' + id,
+      success: function (data) {
+        if (data.res == true) {
+          window.location.href = '/product'
+        }
+      }
+    });
+  }
+</script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@2.2.4/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-match-height@0.7.2/dist/jquery.matchHeight.min.js"></script>
+<script src="assets/js/main3.js"></script>
