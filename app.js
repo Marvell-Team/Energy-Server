@@ -11,7 +11,8 @@ require("./models/productModel")
 
 // Remember 2 lines
 var indexRouter = require("./routes/index");
-var usersRouter = require("./routes/user");
+var usersRouter = require("./routes/user/user");
+var authRouter = require("./routes/user/authUser");
 //
 var productRouter = require("./routes/product")
 var categoryRouter = require("./routes/category");
@@ -19,16 +20,17 @@ var classRouter = require("./routes/class");
 var apisRouter = require("./routes/api");
 
 var app = express();
-// var url = 'mongodb://localhost:27017/ClassRoom';
+ var url = 'mongodb://localhost:27017/EnergyMoblie';
 // var ur = 'mongodb://localhost:27017/ClassRoom?readPreference=primary&appname=MongoDB%20Compass&ssl=false'
 mongoose
   .connect(process.env.MONGODB, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-  })
-  // mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log("DB Connected! http://localhost:"+process.env.PORT))
+  }).then(() => console.log("DB Connected! http://localhost:"+process.env.PORT))
   .catch((err) => console.log("DB error", err));
+  
+  // mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
+  
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
@@ -57,6 +59,7 @@ app.use(
 //Kiểm tra router
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
+app.use("/users", authRouter);
 app.use("/product", productRouter);
 app.use("/class", classRouter);
 app.use("/category", categoryRouter);

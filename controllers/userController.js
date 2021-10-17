@@ -9,24 +9,47 @@ exports.getUserById = async function getUserById(id) {
 };
 
 exports.addNew = async function addNewUser(params, res) {
-  let { userName, password } = params;
-  const modelUser = new userModel({
-    userName: userName,
-    password: password,
-  })
-  // Tạo mới một sản phẩm
-  await userServices.addNew(modelUser, res);
+  let { email_user, pwd_user,name_user } = params;
+  if(email_user===undefined || pwd_user===undefined || name_user===undefined){
+    return {status:-1,message:'Không tìm thấy dữ liệu truyền vào'}
+  }else{
+    const modelUser = new userModel({
+      email_user: email_user,
+      name_user: name_user,
+      pwd_user:pwd_user,
+      phone_user:null,
+      address_user:'',
+      avt_user:'',
+    })
+    // Tạo mới một sản phẩm
+  return await userServices.addNew(modelUser, res);
+  }
+  
+  
 };
 
+exports.login = async function loginUser( params) {
+  let { email_user,pwd_user } = params;
+  let users = {
+    email_user,
+    pwd_user
+  };
+  return await userServices.login(users);
+};
 exports.edit = async function editUser(id, params) {
-  let { userName, password } = params;
+ 
+  let { email_user, name_user,phone_user,address_user,avt_user } = params;
+  console.log(id+"id"+email_user)
   let users = {
     id,
-    userName,
-    password,
+    email_user,
+    name_user,
+    phone_user,
+    address_user,
+    avt_user
 
   };
-  await userServices.edit(users);
+  return await userServices.edit(users);
 };
 
 // exports.remove = function removeProductById(id) {
