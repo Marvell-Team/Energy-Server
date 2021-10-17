@@ -27,10 +27,10 @@ router.get("/:id", async function (req, res, next) {
 router.post("/edit-user/:id",middle, async function (req, res, next) {
   let { id } = req.params;
   let { body } = req;
-  console.log(body.email_user)
+  console.log(req.file)
   if (req.file) {
-    let imgUrl = req.file.originalname;
-    body = { ...body, avt_user: imgUrl };
+    let imgUrl = req.file.filename;
+    body = { ...body, avt_user: "http://localhost:3000/public/assets/images/"+imgUrl };
   }
   const users= await userController.edit(id, body);
   res.status(200).json(users);
