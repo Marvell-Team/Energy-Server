@@ -5,7 +5,7 @@ const ObjectId = Schema.ObjectId;
 
 const categorySchema = new Schema({
     idType: { type: ObjectId },
-    nameClass: { type: String },
+    name_category: { type: String },
 })
 
 module.exports = mongoose.model('Category', 

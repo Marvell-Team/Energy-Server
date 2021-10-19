@@ -5,11 +5,13 @@ const ObjectId = Schema.ObjectId;
 const productSchema = new Schema({
     id: { type: ObjectId },
     nameProduct: { type: String },
-    price: { type: Number },
-    imgProduct: { type: String },
-    material: { type: String },
-    idType: { type: Schema.Types.ObjectId,
-         ref: 'Category' },
+    id_category: { type: Schema.Types.ObjectId,ref: 'Category' },
+    id_image: { type: Schema.Types.ObjectId,ref: 'ImageProduct' },
+    price_product: { type: Number },
+    quantity_product:{ type:Number},
+    description_product:{ type: String},
+    avg_vote:{ type:Number},
+    
 })
 
 module.exports = mongoose.model('Product', 

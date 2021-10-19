@@ -30,7 +30,14 @@ exports.getProductById = async function getProductById(id) {
 exports.addNew = async function addNewProduct(products, res) {
   let saveServices = await products.save();
   if(saveServices){
-    res.redirect("/product");
+    return saveServices
+  }
+};
+
+exports.addImage = async function addNewImage(image, res) {
+  let saveServices = await image.save();
+  if(saveServices){
+    return saveServices
   }
 };
 

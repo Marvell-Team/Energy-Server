@@ -4,7 +4,8 @@ var auth = require("../utilities/authen");
 var upload = require("../utilities/upload");
 var productController = require("../controllers/productController");
 var categoryCotroller = require("../controllers/categoryController");
-var middle = [auth.authenticate, upload.single("imgProduct")];
+var middle = [auth.authenToken, upload.single("imgProduct")];
+var middle2 = [auth.authenToken, upload.array("imgProduct2")];
 
 router.get("/", middle, async function (req, res, next) {
   let list = await productController.getListProduct();
@@ -17,14 +18,25 @@ router.get("/add-product", async function (req, res, next) {
   res.render("new-product", { store, title: "Add Product" });
 });
 
-router.post("/add-product", middle, async function (req, res, next) {
+//them san pham
+router.post("/add-product", upload.array("imgProduct2"), async function (req, res, next) {
   // req.body = {...req.body, avatar: 'assets/images/' + req.file.originalname}
   let { body } = req;
-  if (req.file) {
-    let imgUrl = req.file.originalname;
-    body = { ...body, imgProduct: imgUrl };
+  if (req.files) {
+    let imgUrl=[];
+    const file=req.files
+    for(var i=0;i<file.length;i++){
+      imgUrl.push("http://localhost:3000/public/assets/images/"+file[i].filename);
+    }
+    console.log(imgUrl)
+    let body1 = { nameImage: imgUrl };
+    const images=await productController.addImage(body1, res);
+    body = { ...body, id_image: images._id };
+    const product= await productController.addNew(body, res);
+    res.status(200).json(product);
   }
-  await productController.addNew(body, res);
+  
+  
   // res.redirect("/class");
 });
 
@@ -61,5 +73,20 @@ router.delete(
     res.send({ res: true });
   }
 );
+router.post("/image", middle2, async function (req, res, next) {
+  // req.body = {...req.body, avatar: 'assets/images/' + req.file.originalname}
+  
+  if (req.files) {
+    let imgUrl=[];
+    const file=req.files
+    for(var i=0;i<file.length;i++){
+      imgUrl.push("http://localhost:3000/public/assets/images/"+file[i].filename);
+    }
+    console.log(imgUrl)
+    body = { nameImage: imgUrl };
+  }
+  const images= await productController.addImage(body, res);
+  res.status(200).json(images);
+});
 
 module.exports = router;
