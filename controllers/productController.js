@@ -4,21 +4,25 @@ var imageModel=require ("../models/imageModel");
 exports.getListProduct = async function getListProduct() {
   return await productServices.getListProduct();
 };
+exports.getListProductByCategory = async function getListProductByCategory() {
+  return await productServices.getListProductByCategory();
+};
 
 exports.getProductById = async function getProductById(id) {
   return await productServices.getProductById(id);
 };
 
 exports.addNew = async function addNewProduct(params, res) {
-  let { id_category, id_image, name_product, price_product, quantity_product,description_product } = params;
+  let { id_category, id_image, nameProduct, price_product, quantity_product,description_product } = params;
   const modelProduct = new productModel({
-    name_product: name_product,
+    nameProduct: nameProduct,
     price_product: price_product,
     description_product:description_product,
-    avg_vote:0,
     quantity_product: quantity_product,
     id_image: id_image,
     id_category:id_category,
+    stock:quantity_product>0?true: false,
+    avg_vote:0,
   })
   // Tạo mới một sản phẩm
   return await productServices.addNew(modelProduct, res);

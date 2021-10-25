@@ -6,9 +6,10 @@ exports.getListCategories = async function getListCategories(){
 };
 
 exports.addCategory = async function addNewCategory(params, res) {
-    let { name_category } = params;
+    let { name_category ,categorys} = params;
     const modelCategory = new categoryModel({
       name_category: name_category,
+      categorys:categorys
     })
     // Tạo mới một sản phẩm
     await categoryServices.addCategory(modelCategory, res);

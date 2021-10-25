@@ -9,7 +9,8 @@ const productSchema = new Schema({
     id_image: { type: Schema.Types.ObjectId,ref: 'ImageProduct' },
     price_product: { type: Number },
     quantity_product:{ type:Number},
-    description_product:{ type: String},
+    description_product:{ type: Array},
+    stock:{ type:Boolean},
     avg_vote:{ type:Number},
     
 })

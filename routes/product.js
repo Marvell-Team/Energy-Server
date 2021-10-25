@@ -7,9 +7,15 @@ var categoryCotroller = require("../controllers/categoryController");
 var middle = [auth.authenToken, upload.single("imgProduct")];
 var middle2 = [auth.authenToken, upload.array("imgProduct2")];
 
-router.get("/", middle, async function (req, res, next) {
+router.get("/", async function (req, res, next) {
   let list = await productController.getListProduct();
-  res.render("product", { listTable: list, title: "Yame Admin" });
+ // res.render("product", { listTable: list, title: "Yame Admin" });
+  res.status(200).json(list)
+});
+router.get("/get", async function (req, res, next) {
+  let list = await productController.getListProductByCategory();
+ // res.render("product", { listTable: list, title: "Yame Admin" });
+  res.status(200).json(list)
 });
 
 

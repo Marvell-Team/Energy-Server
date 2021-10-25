@@ -1,25 +1,38 @@
 
 var ProductModel = require("../models/productModel");
 
-const productModel = require("../models/productModel");
 
+
+var ImageModel = require("../models/imageModel");
 
 exports.getListProduct = async function getListProduct() {
-  let productt = await ProductModel.find().populate("idType");
-  // console.log('>>>>>>>>>>>', productt)
+ try {
+   
+    let productt = await ProductModel.find().populate('id_image');
 
-  // let list = productt.map((sp) => {
-  //   return {
-  //     id: sp._id,
-  //     fullName: sp.fullName,
-  //     phoneNumber: sp.phoneNumber,
-  //     avatar: sp.avatar,
-  //     startDate: convertDate.execute(sp.startDate),
-  //     productRoom: sp.idType,
-  //   };
-  // });
-  return productt;
+    if(productt){
+    return {status:1,data:productt}
+  }else{
+    return {status:-1,error:'Đã xảy ra lỗi kết nỗi'}
+  }
+  } catch (error) {
+    return {status:-1,error:error}
+  }
 };
+exports.getListProductByCategory = async function getListProductByCategory() {
+  try {
+    
+     let productt = await ProductModel.find().or([{ id_category: '61751444be6eb74ad81eda10' }]).populate({path:'id_category'});
+ 
+     if(productt){
+     return productt
+   }else{
+     return {status:-1,error:'Đã xảy ra lỗi kết nỗi'}
+   }
+   } catch (error) {
+     return {status:-1,error:error}
+   }
+ };
 
 exports.getProductById = async function getProductById(id) {
   let productt = await ProductModel.findById(id);
@@ -42,7 +55,7 @@ exports.addImage = async function addNewImage(image, res) {
 };
 
 exports.edit = async function editProduct(products) {
-  let productEdit = await productModel.findById(products.id)
+  let productEdit = await ProductModel.findById(products.id)
   console.log('tgtgtg',productEdit);
   if(productEdit){
     productEdit.nameProduct = products.nameProduct;
@@ -58,6 +71,6 @@ exports.edit = async function editProduct(products) {
 };
 
 exports.remove = async function removeProductById(id) {
-  let productRemove = await productModel.findByIdAndRemove(id)
+  let productRemove = await ProductModel.findByIdAndRemove(id)
   return await productRemove;
 };
