@@ -3,6 +3,7 @@ var router = express.Router();
 var userController = require("../../controllers/userController");
 var auth = require("../../utilities/authen");
 var upload = require("../../utilities/upload");
+
 /* GET users listing. */
 // router.get('/', function(req, res, next) {
 //   res.send('respond with a resource');
@@ -16,7 +17,8 @@ router.get("/", async  (req, res, next) => {
 
 });
 
-router.get("/:id", async function (req, res, next) {
+router.get("/:id",middle, async function (req, res, next) {
+  
   let { id } = req.params;
   console.log(id+"id")
   let users = await userController.getUserById(id);

@@ -28,15 +28,17 @@ exports.getListUser = async function getListUser() {
 };
 
 exports.getUserById = async function getUserById(id) {
-  let userr = await UserModel.findById(id);
-  // usert = { ...usert, id: usert._id };
-  console.log(id)
+  let userr = await UserModel.findById(id).then(data => {
+    return {status:1,data:{email_user:data.email_user,name_user:data.name_user,phone_user:data.phone_user,address_user:data.address_user,avt_user:data.avt_user}};
+  }).catch(err =>{
+    return {status:-1,message:err};
+  });
   return userr;
 };
 
 exports.addNew = async function addNewUser(users, res) {
   let saveServices = await users.save().then(data => {
-    return {status:1,data:{email_user:data.email_user,name_user:data.name_user,phone_user:data.phone_user,address_user:data.address_user,avt_user:data.avt_user}};
+    return {status:1,data:{email_user:data.email_user,name_user:data.name_user,phone_user:data.phone_user,address_user:data.address_user,avt_user:data.avt_user,gender_user:data.gender_user,born_day:data.born_day}};
   }).catch(err =>{
     return {status:-1,message:err};
   });
@@ -46,7 +48,7 @@ exports.addNew = async function addNewUser(users, res) {
 
 exports.edit = async function editUser(usersEdit) {
   let user = await userModel.findById(usersEdit.id);
-  const {id,email_user,name_user,phone_user,address_user,avt_user}=usersEdit;
+  const {id,email_user,name_user,phone_user,address_user,avt_user,gender_user,born_day}=usersEdit;
   console.log('tgtgtg',user);
   if(user){
     // const users = await UserModel.updateOne(
@@ -65,6 +67,9 @@ exports.edit = async function editUser(usersEdit) {
     user.phone_user= phone_user!==undefined?(phone_user):(user.phone_user);
     user.address_user=address_user!==undefined?(address_user):(user.address_user);
     user.avt_user=avt_user!==undefined?(avt_user):(user.avt_user);
+    user.gender_user=address_user!==undefined?(gender_user):(user.gender_user);
+    user.born_day=avt_user!==undefined?(born_day):(user.born_day);
+   
   }
   await user.save();
   return {status:1,data:{email_user:user.email_user,name_user:user.name_user,phone_user:user.phone_user,address_user:user.address_user,avt_user:user.avt_user}}

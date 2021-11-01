@@ -10,7 +10,8 @@ const userSchema = new Schema({
     address_user: { type: String },
     avt_user: { type: String },
     pwd_user: { type: String },
-
+    gender_user:{ type: String},
+    born_day:{type:Date}
 })
 
 module.exports = mongoose.model('users', 

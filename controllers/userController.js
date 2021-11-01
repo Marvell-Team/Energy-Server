@@ -20,6 +20,8 @@ exports.addNew = async function addNewUser(params, res) {
       phone_user:null,
       address_user:'',
       avt_user:'',
+      gender_user:'',
+      born_day:null,
     })
     // Tạo mới một sản phẩm
   return await userServices.addNew(modelUser, res);
