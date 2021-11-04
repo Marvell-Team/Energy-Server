@@ -8,7 +8,7 @@ var upload = require("../../utilities/upload");
 // router.get('/', function(req, res, next) {
 //   res.send('respond with a resource');
 // });
-var middle = [auth.authenToken, upload.single("imgProduct")];
+var middle = [auth.authenToken];
 
 router.get("/", async  (req, res, next) => {
   let { id } = req;
@@ -30,10 +30,7 @@ router.post("/edit-user/:id",middle, async function (req, res, next) {
   let { id } = req.params;
   let { body } = req;
   console.log(req.file)
-  if (req.file) {
-    let imgUrl = req.file.filename;
-    body = { ...body, avt_user: "http://localhost:3000/public/assets/images/"+imgUrl };
-  }
+  
   const users= await userController.edit(id, body);
   res.status(200).json(users);
 });
