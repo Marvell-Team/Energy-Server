@@ -19,13 +19,16 @@ exports.getListProduct = async function getListProduct() {
     return {status:-1,error:error}
   }
 };
-exports.getListProductByCategory = async function getListProductByCategory() {
+exports.getListProductByCategory = async function getListProductByCategory(categorys) {
+
   try {
     
-     let productt = await ProductModel.find().or([{ id_category: '61751444be6eb74ad81eda10' }]).populate({path:'id_category'});
+     let productt = await ProductModel.find().populate({path:'id_category',match: {
+      categorys:categorys
+    }}).populate('id_image').exec();
  
-     if(productt){
-     return productt
+     if(productt ){
+     return {status:1,data:productt}
    }else{
      return {status:-1,error:'Đã xảy ra lỗi kết nỗi'}
    }
@@ -35,10 +38,20 @@ exports.getListProductByCategory = async function getListProductByCategory() {
  };
 
 exports.getProductById = async function getProductById(id) {
-  let productt = await ProductModel.findById(id);
-  // productt = { ...productt, id: productt._id };
-  return productt;
+  try {
+    
+    let productt = await ProductModel.findById(id).populate('id_image').exec();
+
+    if(productt ){
+    return {status:1,data:productt}
+  }else{
+    return {status:-1,error:'Đã xảy ra lỗi kết nỗi'}
+  }
+  } catch (error) {
+    return {status:-1,error:error}
+  }
 };
+
 
 exports.addNew = async function addNewProduct(products, res) {
   let saveServices = await products.save();

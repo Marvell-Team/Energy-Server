@@ -1,12 +1,16 @@
 var express = require("express");
 var router = express.Router();
-var categoryCotroller = require("../controllers/categoryController");
+var categoriesController = require("../controllers/categoryController");
 
-router.get("/", async function (req, res, next) {
-    // let list = await categoryCotroller.getListCategories();
-    res.render("new-category");
+// router.get("/", async function (req, res, next) {
+//     // let list = await categoryCotroller.getListCategories();
+//     res.render("new-category");
+//   });
+  router.get("/:categorys", async  (req, res, next) => {
+    let { categorys } = req.params;
+    let users = await categoriesController.getListCategoriesbyCategorys(categorys);
+    res.status(200).json(users);
   });
-
 router.get("/add-category", async function (req, res, next) {
     let categories = await categoryCotroller.getListCategories();
     res.render("new-category", { categories, title: "Add Category" });

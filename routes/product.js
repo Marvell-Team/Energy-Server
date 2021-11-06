@@ -12,8 +12,16 @@ router.get("/", async function (req, res, next) {
  // res.render("product", { listTable: list, title: "Yame Admin" });
   res.status(200).json(list)
 });
-router.get("/get", async function (req, res, next) {
-  let list = await productController.getListProductByCategory();
+router.get("/:categorys", async function (req, res, next) {
+  let { categorys } = req.params;
+  console.log(categorys+'aa');
+  let list = await productController.getListProductByCategory(categorys);
+ // res.render("product", { listTable: list, title: "Yame Admin" });
+  res.status(200).json(list)
+});
+router.get("/id/:id", async function (req, res, next) {
+  let { id } = req.params;
+  let list = await productController.getProductById(id);
  // res.render("product", { listTable: list, title: "Yame Admin" });
   res.status(200).json(list)
 });

@@ -4,8 +4,8 @@ var imageModel=require ("../models/imageModel");
 exports.getListProduct = async function getListProduct() {
   return await productServices.getListProduct();
 };
-exports.getListProductByCategory = async function getListProductByCategory() {
-  return await productServices.getListProductByCategory();
+exports.getListProductByCategory = async function getListProductByCategory(categorys) {
+  return await productServices.getListProductByCategory(categorys);
 };
 
 exports.getProductById = async function getProductById(id) {
@@ -13,11 +13,19 @@ exports.getProductById = async function getProductById(id) {
 };
 
 exports.addNew = async function addNewProduct(params, res) {
-  let { id_category, id_image, nameProduct, price_product, quantity_product,description_product } = params;
+  let { id_category, id_image, nameProduct, price_product, quantity_product,description_product,chip_product ,rom_product ,ram_product,camera_late_product,pin_product} = params;
   const modelProduct = new productModel({
     nameProduct: nameProduct,
     price_product: price_product,
-    description_product:description_product,
+    description_product:
+    {
+      description_product:description_product,
+      chip:chip_product,
+      ram:ram_product,
+      rom:rom_product,
+      camera_late:camera_late_product,
+      pin:pin_product,
+    },
     quantity_product: quantity_product,
     id_image: id_image,
     id_category:id_category,

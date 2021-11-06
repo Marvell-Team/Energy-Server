@@ -39,7 +39,6 @@ exports.login = async function loginUser( params) {
   return await userServices.login(users);
 };
 exports.edit = async function editUser(id, params) {
- 
   let { email_user, name_user,phone_user,address_user,avt_user,gender_user,born_day } = params;
   console.log(id+"id"+email_user)
   let users = {

@@ -8,6 +8,15 @@ exports.getCategoryById = async function getCategoryById(id) {
   // Categorys = { ...Categorys, id: Categorys._id };
   return categorii;
 };
+exports.getListCategoriesbyCategorys = async function getListCategoriesbyCategorys(categorys) {
+  try {
+    let categorii = await CategoryModel.find({categorys:categorys});
+    return {status:1,data:categorii};
+  } catch (error) {
+    return {status:-1,error:'Không lấy được dữ liệu'};
+  }
+};
+
 
 exports.addCategory= async function addNewCategory(categories, res) {
   let saveServices = await categories.save();
