@@ -4,33 +4,34 @@ var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 var session = require("express-session");
+var cors = require("cors");
 var mongoose = require("mongoose");
 require("./models/categoryModel");
 require("./models/classModel");
-require("./models/productModel")
+require("./models/productModel");
 
 // Remember 2 lines
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/user/user");
 var authRouter = require("./routes/user/authUser");
 //
-var productRouter = require("./routes/product")
+var productRouter = require("./routes/product");
 var categoryRouter = require("./routes/category");
 var classRouter = require("./routes/class");
 var apisRouter = require("./routes/api");
 
 var app = express();
- var url = 'mongodb://localhost:27017/EnergyMoblie';
+var url = "mongodb://localhost:27017/EnergyMoblie";
 // var ur = 'mongodb://localhost:27017/ClassRoom?readPreference=primary&appname=MongoDB%20Compass&ssl=false'
 mongoose
   .connect(process.env.MONGODB, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-  }).then(() => console.log("DB Connected! http://localhost:"+process.env.PORT))
+  })
+  .then(() => console.log("DB Connected! http://localhost:" + process.env.PORT))
   .catch((err) => console.log("DB error", err));
-  
-  // mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
-  
+
+// mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
@@ -39,7 +40,9 @@ var hbs = require("hbs");
 hbs.registerHelper("soSanh", function (a, b, c) {
   return a.toString() == b.toString();
 });
+
 app.use(logger("dev"));
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
