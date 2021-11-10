@@ -18,7 +18,7 @@ var productRouter = require("./routes/product")
 var categoryRouter = require("./routes/category");
 var classRouter = require("./routes/class");
 var apisRouter = require("./routes/api");
-
+var cartRouter = require("./routes/user/Cart");
 var app = express();
  var url = 'mongodb://localhost:27017/EnergyMoblie';
 // var ur = 'mongodb://localhost:27017/ClassRoom?readPreference=primary&appname=MongoDB%20Compass&ssl=false'
@@ -63,6 +63,7 @@ app.use("/users", authRouter);
 app.use("/product", productRouter);
 app.use("/class", classRouter);
 app.use("/category", categoryRouter);
+app.use("/cart", cartRouter);
 app.use("/api", apisRouter);
 
 // catch 404 and forward to error handler

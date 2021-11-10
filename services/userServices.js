@@ -3,6 +3,7 @@ var UserModel = require("../models/userModel");
 
 const userModel = require("../models/userModel");
 var jwt = require('jsonwebtoken');
+const cartModel = require("../models/cartModel");
 
 exports.login = async function login(users) {
   const {email_user,pwd_user}=users;
@@ -38,14 +39,23 @@ exports.getUserById = async function getUserById(id) {
 
 exports.addNew = async function addNewUser(users, res) {
   let saveServices = await users.save().then(data => {
-    return {status:1,data:{email_user:data.email_user,name_user:data.name_user,phone_user:data.phone_user,address_user:data.address_user,avt_user:data.avt_user,gender_user:data.gender_user,born_day:data.born_day}};
+    return {status:1,data:{id:data._id, email_user:data.email_user,name_user:data.name_user,phone_user:data.phone_user,address_user:data.address_user,avt_user:data.avt_user,gender_user:data.gender_user,born_day:data.born_day}};
   }).catch(err =>{
     return {status:-1,message:err};
   });
+  const CartModel = new cartModel({
+    id_user:saveServices.data.id,
+    products:[],
+    total:0,
+  })
+  await CartModel.save().then(data=>{
+    console.log(data)
+  })
   return saveServices;
 };
 exports.edit = async function editUser(usersEdit) {
-  let user = await userModel.findById(usersEdit.id);
+  try {
+    let user = await userModel.findById(usersEdit.id);
   const {id,email_user,name_user,phone_user,address_user,avt_user,gender_user,born_day}=usersEdit;
   console.log('tgtgtg',avt_user);
   if(user){
@@ -71,6 +81,9 @@ exports.edit = async function editUser(usersEdit) {
   }
   await user.save();
   return {status:1,data:{email_user:user.email_user,name_user:user.name_user,phone_user:user.phone_user,address_user:user.address_user,avt_user:user.avt_user,born_day:user.born_day,gender_user:user.gender_user}}
+  } catch (error) {
+    return {status:-1,error:error}
+  }
 };
 
 // exports.remove = async function removeUserById(id) {

@@ -11,6 +11,7 @@ exports.getCategoryById = async function getCategoryById(id) {
 exports.getListCategoriesbyCategorys = async function getListCategoriesbyCategorys(categorys) {
   try {
     let categorii = await CategoryModel.find({categorys:categorys});
+    console.log(categorii)
     return {status:1,data:categorii};
   } catch (error) {
     return {status:-1,error:'Không lấy được dữ liệu'};

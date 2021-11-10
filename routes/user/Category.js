@@ -6,4 +6,5 @@ router.get("/", async  (req, res, next) => {
     let users = await categoriesController.getListCategoriesbyCategorys();
     res.status(200).json(users);
   
-  });
+});
+  
