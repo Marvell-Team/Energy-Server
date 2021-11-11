@@ -19,6 +19,20 @@ exports.getListProduct = async function getListProduct() {
     return {status:-1,error:error}
   }
 };
+exports.getListLikeProduct = async function getListLikeProduct() {
+  try {
+     let mysort  ={avg_vote:-1}
+     let productt = await ProductModel.find().sort(mysort).populate('id_image');
+ 
+     if(productt){
+     return {status:1,data:productt}
+   }else{
+     return {status:-1,error:'Đã xảy ra lỗi kết nỗi'}
+   }
+   } catch (error) {
+     return {status:-1,error:error}
+   }
+ };
 exports.getListProductByCategory = async function getListProductByCategory(categorys) {
 
   try {

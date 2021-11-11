@@ -12,6 +12,11 @@ router.get("/", async function (req, res, next) {
  // res.render("product", { listTable: list, title: "Yame Admin" });
   res.status(200).json(list)
 });
+router.get("/like", async function (req, res, next) {
+  let list = await productController.getListLikeProduct();
+ // res.render("product", { listTable: list, title: "Yame Admin" });
+  res.status(200).json(list)
+});
 router.get("/:categorys", async function (req, res, next) {
   let { categorys } = req.params;
   console.log(categorys+'aa');

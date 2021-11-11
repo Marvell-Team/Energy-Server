@@ -4,6 +4,9 @@ var imageModel=require ("../models/imageModel");
 exports.getListProduct = async function getListProduct() {
   return await productServices.getListProduct();
 };
+exports.getListLikeProduct = async function getListLikeProduct() {
+  return await productServices.getListLikeProduct();
+};
 exports.getListProductByCategory = async function getListProductByCategory(categorys) {
   return await productServices.getListProductByCategory(categorys);
 };
