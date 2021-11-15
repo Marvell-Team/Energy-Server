@@ -11,7 +11,6 @@ router.get("/products", async function (req, res, next) {
   res.send(products)
 });
 
-
 router.get("/products/:id", async function (req, res, next) {
   let { id } = req.params;
   let product = await productController.getProductById(id)

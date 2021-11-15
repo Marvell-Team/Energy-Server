@@ -62,5 +62,5 @@ exports.addImage = async function addImageProduct(params, res) {
     nameImage:params.nameImage,
   })
   // Tạo mới một sản phẩm
-  return await productServices.addImage(modelImage, res);
+  return await productServices.addImage(modelImage);
 };
