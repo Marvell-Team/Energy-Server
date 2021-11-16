@@ -42,3 +42,12 @@ router.post("/",async function (req, res, next) {
   res.status(200).json(users);
 });
 module.exports = router;
+
+//tao User
+router.get("/admin/:id",async function (req, res, next) {
+  let { id } = req.params;
+  console.log(id+"id")
+  let users = await userController.getUserById(id);
+  res.status(200).json(users);
+});
+module.exports = router;

@@ -33,12 +33,12 @@ router.get("/id/:id", async function (req, res, next) {
 
 
 router.get("/add-product", async function (req, res, next) {
-  let store = await categoryCotroller.getListCategories();
-  res.render("new-product", { store, title: "Add Product" });
+  let product = await categoryCotroller.getListCategories();
+  res.status(200).json(product);
 });
 
 //them san pham
-router.post("/add-product", upload.array("imgProduct2"), async function (req, res, next) {
+router.post("/", upload.array("imgProduct2"), async function (req, res, next) {
   // req.body = {...req.body, avatar: 'assets/images/' + req.file.originalname}
   let { body } = req;
   if (req.files) {
