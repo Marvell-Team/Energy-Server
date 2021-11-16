@@ -41,18 +41,21 @@ router.get("/add-product", async function (req, res, next) {
 router.post("/", upload.array("imgProduct2"), async function (req, res, next) {
   // req.body = {...req.body, avatar: 'assets/images/' + req.file.originalname}
   let { body } = req;
-  if (req.files) {
+ // console.log(req.files)
+ if (req.files) {
     let imgUrl=[];
     const file=req.files
     for(var i=0;i<file.length;i++){
       imgUrl.push("http://localhost:3000/public/assets/images/"+file[i].filename);
     }
-    console.log(imgUrl)
+ 
     let body1 = { nameImage: imgUrl };
     const images=await productController.addImage(body1, res);
     body = { ...body, id_image: images._id };
     const product= await productController.addNew(body, res);
     res.status(200).json(product);
+  }else{
+    res.status(200).json({status:-1,error:'Vui lòng chọn hình ảnh'})
   }
   
   
