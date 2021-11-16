@@ -5,6 +5,20 @@ var ProductModel = require("../models/productModel");
 
 var ImageModel = require("../models/imageModel");
 
+exports.getListProductByIdCategorys = async function getListProductByIdCategorys(id) {
+  try {
+    
+     let productt = await ProductModel.find({id_category: id}).populate('id_image');
+ 
+     if(productt){
+     return {status:1,data:productt}
+   }else{
+     return {status:-1,error:'Đã xảy ra lỗi kết nỗi'}
+   }
+   } catch (error) {
+     return {status:-1,error:error}
+   }
+ };
 exports.getListProduct = async function getListProduct() {
  try {
    

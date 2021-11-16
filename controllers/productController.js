@@ -11,6 +11,9 @@ exports.getListProductByCategory = async function getListProductByCategory(categ
   return await productServices.getListProductByCategory(categorys);
 };
 
+exports.getListProductByIdCategorys = async function getListProductByIdCategorys(id) {
+  return await productServices.getListProductByIdCategorys(id);
+};
 exports.getProductById = async function getProductById(id) {
   return await productServices.getProductById(id);
 };
