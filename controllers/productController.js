@@ -59,10 +59,10 @@ exports.remove = function removeProductById(id) {
   productServices.remove(id);
 };
 
-exports.addImage = async function addImageProduct(params, res) {
+exports.addImage = async function addImageProduct(nameImage) {
  
   const modelImage = new imageModel({
-    nameImage:params.nameImage,
+    nameImage:nameImage,
   })
   // Tạo mới một sản phẩm
   return await productServices.addImage(modelImage);
