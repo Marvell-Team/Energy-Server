@@ -24,14 +24,16 @@ exports.addNew = async function addNewProduct(params) {
 };
 
 exports.edit = async function editProduct(id, params) {
-  let { nameProduct, price, imgProduct, material, idType } = params;
+  let { nameProduct, price, id_category, stock, avg_vote , description_product ,quantity_product } = params;
   let products = {
     id,
     nameProduct,
     price,
-    imgProduct,
-    material,
-    idType,
+    id_category,
+    quantity_product,
+    description_product,
+    stock,
+    avg_vote,
   };
   await productServices.edit(products);
 };

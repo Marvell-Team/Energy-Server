@@ -11,7 +11,7 @@ const productSchema = new Schema({
     quantity_product:{ type:Number},
     description_product:{ type: Object},
     stock:{ type:Boolean},
-    avg_vote:{ type: Schema.Types.ObjectId,ref: 'Like' },
+    avg_vote:{ type: Number},
     
 })
 

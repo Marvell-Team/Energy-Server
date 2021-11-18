@@ -6,8 +6,7 @@ const ObjectId = Schema.ObjectId;
 const likeSchema = new Schema({
     id_like: { type: ObjectId },
     id_product:{type: ObjectId, ref: 'Product'},
-    liker:[{id_user:{type: ObjectId, ref: 'users'}}],
-    countLiker: { type:Number}
+    id_user:{type: ObjectId, ref: 'users'},
 })
 module.exports = mongoose.model('Like', 
 likeSchema)
