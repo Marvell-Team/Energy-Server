@@ -69,10 +69,10 @@ exports.getListProductByCategory = async function getListProductByCategory(categ
 exports.getProductById = async function getProductById(id) {
   try {
     
-    let productt = await ProductModel.findById(id).populate('id_image').populate({path:'avg_vote',options:{sort:{'countLiker':-1}}}).exec();
+    let productt = await ProductModel.findById(id).populate('id_image').exec();
     if(productt ){
-      console.log(productt.avg_vote.liker.length)
-    return {status:1,data:{productt,liker:productt.avg_vote.liker.length}}
+     
+    return {status:1,data:productt}
   }else{
     return {status:-1,error:'Đã xảy ra lỗi kết nỗi'}
   }
