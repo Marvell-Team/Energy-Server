@@ -13,8 +13,20 @@ router.get("/", async function (req, res, next) {
 
   res.status(200).json(cart);
 });
+router.post("/status",middle, async function (req, res, next) {
+  let { body } = req;
+    console.log(body);
+    const like= await likeController.statusLike( body);
+    res.status(200).json(like);
+});
 
-router.post("/liker", async function (req, res, next) {
+router.get("/", async function (req, res, next) {
+  const cart = await LikeModel.find({id_user:"6189280c7e874d0c5463f356"}).populate({path:'id_product',populate :{path : 'id_image'}});
+  // console.log(cart[0].liker.lenght)
+  res.status(200).json(cart);
+});
+
+router.post("/liker",middle, async function (req, res, next) {
   let { body } = req;
     console.log(body);
     const like= await likeController.addLiker( body);
@@ -25,6 +37,12 @@ router.post("/liker", async function (req, res, next) {
 router.get("/pr", async function (req, res, next) {
   const like = await LikeModel.find({id_product:'619538c00ffc292a88fe2723'});
   res.status(200).json(like.length);
+});
+router.get("/removeLike/:id", middle , async function (req, res, next) {
+  const {id}= req.params;
+  console.log(id)
+  const like= await likeController.removelike( id);
+  res.status(200).json(like);
 });
 
 module.exports = router;

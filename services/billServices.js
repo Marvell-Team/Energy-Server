@@ -57,7 +57,7 @@ exports.getBillUser = async function getBillBUser(id_user) {
 exports.getBillById = async function getBillById(id) {
  
    try {
-    const bill= await billdetailModel.findById(id).populate({path:'id_bill'}).populate({path:'products.id_product',populate :{path : 'id_image'}});
+    const bill= await billdetailModel.findById(id).populate({path:'id_bill'}).populate({path:'products.id_product',populate :{path : 'id_image'}}).populate({path:'id_store'});
     return {status:1,data:bill}
    } catch (error) {
     return {status:-1,error:'Loi'}

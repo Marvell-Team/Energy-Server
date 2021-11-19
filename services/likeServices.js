@@ -12,6 +12,17 @@ exports.add = async function addLike(likeModels,params) {
       await product.save();
     return {status: 1, data:product}  
 };
+exports.remove = async function removeLike(id) {
+  console.log('idaa'+id)
+  const remove=await likeModel.deleteOne({_id:id});
+  return {status: 1, data:remove}  
+};
+exports.statusLike = async function statusLike(params) {
+  let { id_user, id_product } = params;
+  const like= await likeModel.findOne({id_user:id_user,id_product:id_product})
+  return {status: 1, data:like}  
+};
+
 exports.getStore = async function getStore() {
   try {
     let store = await storeModel.find();

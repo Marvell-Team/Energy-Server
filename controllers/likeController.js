@@ -1,6 +1,10 @@
 
 const likeModel = require("../models/likeModel");
 var likeServices = require("../services/likeServices");
+exports.statusLike = async function statusLike(params) {
+  return await likeServices.statusLike(params);
+};
+
 exports.addLiker = async function addLiker( params) {
   
     let { id_user, id_product } = params;
@@ -16,10 +20,7 @@ exports.addLiker = async function addLiker( params) {
   }
       
   };
-
-  exports.getStore = async function getStore() {
-    return await storeServices.getStore();
+  exports.removelike = async function removelike(id) {
+    return await likeServices.remove(id);
   };
-  exports.getStoreById = async function getStoreById(id) {
-    return await storeServices.getStoreById(id);
-  };
+ 
