@@ -24,7 +24,7 @@ exports.addNew = async function addNewProduct(params) {
 };
 
 exports.edit = async function editProduct(id, params) {
-  let { nameProduct, price, id_category, stock, avg_vote , description_product ,quantity_product } = params;
+  let { nameProduct, price, id_category, stock, avg_vote , description_product ,quantity_product,nameImage } = params;
   let products = {
     id,
     nameProduct,
@@ -34,12 +34,13 @@ exports.edit = async function editProduct(id, params) {
     description_product,
     stock,
     avg_vote,
+    nameImage
   };
-  await productServices.edit(products);
+  return await productServices.edit(products);
 };
 
-exports.remove = function removeProductById(id) {
-  productServices.remove(id);
+exports.remove = async function removeProductById(id) {
+  return await productServices.remove(id);
 };
 
 exports.addImage = async function addImageProduct(nameImage) {

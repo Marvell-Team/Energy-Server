@@ -126,22 +126,37 @@ exports.addImage = async function addNewImage(image, res) {
 };
 
 exports.edit = async function editProduct(products) {
-  let productEdit = await ProductModel.findById(products.id)
-  console.log('tgtgtg',productEdit);
-  if(productEdit){
-    productEdit.nameProduct = products.nameProduct;
-    productEdit.price = products.price;
-    if (products.imgProduct) {
-      productEdit.imgProduct = products.imgProduct;
+  const { id,nameProduct,price,id_category,quantity_product,description_product,stock,nameImage}=products;
+  let productEdit = await ProductModel.findById(products.id).populate('id_image')
+  
+  if(productEdit){ 
+    if(nameImage!==undefined && Array.isArray(nameImage) && nameImage.length ){
+      const image =await ImageModel.findById(productEdit.id_image);
+      image.nameImage=nameImage;
+      await image.save();
     }
-    productEdit.material = products.material;
-    productEdit.idType = products.idType;
-
+    productEdit.nameProduct=nameProduct!==undefined?(nameProduct):(productEdit.nameProduct);
+    productEdit.price=price!==undefined?(price):(productEdit.price);
+    productEdit.id_category=id_category!==undefined?(id_category):(productEdit.id_category);
+    productEdit.description_product=description_product!==undefined?(description_product):(productEdit.description_product);
+    productEdit.stock=stock!==undefined?(stock):(productEdit.stock);
+    productEdit.quantity_product=quantity_product!==undefined?(quantity_product):(productEdit.quantity_product);
+    
+    await productEdit.save();
+    console.log(productEdit)
+    return { status: 1, data:productEdit}
+  }else{
+    return {status:-1,error:'Không tìm thấy dữ liệu'}
   }
-  await productEdit.save()
+  
+
 };
 
 exports.remove = async function removeProductById(id) {
-  let productRemove = await ProductModel.findByIdAndRemove(id)
-  return await productRemove;
+  try {
+    let productRemove = await ProductModel.findByIdAndRemove(id)
+    return {status:1,data:productRemove};
+  } catch (error) {
+    return {status:-1,error:error};
+  }
 };
