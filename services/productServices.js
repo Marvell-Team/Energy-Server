@@ -136,7 +136,7 @@ exports.edit = async function editProduct(products) {
       await image.save();
     }
     productEdit.nameProduct=nameProduct!==undefined?(nameProduct):(productEdit.nameProduct);
-    productEdit.price=price!==undefined?(price):(productEdit.price);
+    productEdit.price_product=price_product!==undefined?(price_product):(productEdit.price_product);
     productEdit.id_category=id_category!==undefined?(id_category):(productEdit.id_category);
     productEdit.description_product=description_product!==undefined?
       {
