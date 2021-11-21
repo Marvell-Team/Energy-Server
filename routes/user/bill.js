@@ -22,4 +22,9 @@ router.get("/billdetails/:id",middle, async function (req, res, next) {
     const bill= await billController.getBillById( id);
     res.status(200).json(bill);
 });
+router.get("/", async function (req, res, next) {
+   
+    const bill= await billController.getBill();
+    res.status(200).json(bill);
+});
 module.exports = router;

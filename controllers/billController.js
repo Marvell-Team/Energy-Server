@@ -31,3 +31,10 @@ exports.getBillByUser = async function getBill(params) {
     return await billServices.getBillById(id);
     }
   };  
+  exports.getBill = async function getBill() {
+    
+   
+      // Tạo mới một sản phẩm
+    return await billServices.getBill();
+    
+  };  
