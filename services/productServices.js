@@ -126,7 +126,7 @@ exports.addImage = async function addNewImage(image, res) {
 };
 
 exports.edit = async function editProduct(products) {
-  const { id,nameProduct,price,id_category,quantity_product,description_product,stock,nameImage}=products;
+  const { id,nameProduct,price,id_category,quantity_product,description_product,stock,nameImage,chip_product,ram_product,rom_product,camera_late_product,pin_product}=products;
   let productEdit = await ProductModel.findById(products.id).populate('id_image')
   
   if(productEdit){ 
@@ -138,7 +138,16 @@ exports.edit = async function editProduct(products) {
     productEdit.nameProduct=nameProduct!==undefined?(nameProduct):(productEdit.nameProduct);
     productEdit.price=price!==undefined?(price):(productEdit.price);
     productEdit.id_category=id_category!==undefined?(id_category):(productEdit.id_category);
-    productEdit.description_product=description_product!==undefined?(description_product):(productEdit.description_product);
+    productEdit.description_product=description_product!==undefined?
+      {
+        description_product:description_product,
+        chip:chip_product,
+        ram:ram_product,
+        rom:rom_product,
+        camera_late:camera_late_product,
+        pin:pin_product,
+      }
+    :(productEdit.description_product);
     productEdit.stock=stock!==undefined?(stock):(productEdit.stock);
     productEdit.quantity_product=quantity_product!==undefined?(quantity_product):(productEdit.quantity_product);
     
