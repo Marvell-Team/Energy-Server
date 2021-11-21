@@ -126,7 +126,7 @@ exports.addImage = async function addNewImage(image, res) {
 };
 
 exports.edit = async function editProduct(products) {
-  const { id,nameProduct,price,id_category,quantity_product,description_product,stock,nameImage,chip_product,ram_product,rom_product,camera_late_product,pin_product}=products;
+  const { id,nameProduct,price_product,id_category,quantity_product,description_product,stock,nameImage,chip_product,ram_product,rom_product,camera_late_product,pin_product}=products;
   let productEdit = await ProductModel.findById(products.id).populate('id_image')
   
   if(productEdit){ 

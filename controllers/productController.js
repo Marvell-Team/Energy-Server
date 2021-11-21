@@ -24,11 +24,11 @@ exports.addNew = async function addNewProduct(params) {
 };
 
 exports.edit = async function editProduct(id, params) {
-  let { nameProduct, price, id_category, stock, avg_vote , description_product ,quantity_product,nameImage,rom_product,ram_product ,camera_late_product,pin_product} = params;
+  let { nameProduct, price_product, id_category, stock, avg_vote , description_product ,quantity_product,nameImage,rom_product,ram_product ,camera_late_product,pin_product} = params;
   let products = {
     id,
     nameProduct,
-    price,
+    price_product,
     id_category,
     quantity_product,
     description_product,
