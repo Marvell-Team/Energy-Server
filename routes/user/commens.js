@@ -9,13 +9,15 @@ var auth = require("../../utilities/authen");
 var middle = [auth.authenToken];
 
 router.post("/", async function (req, res, next) {
-    let { body } = req;
+    try {
+      let { body } = req;
     const {id_product,id_user}=body;
     let comments;
-    comments= await commentModel.find({id_product:id_product}).sort({date: -1});
-  
-
-  res.status(200).json(comments);
+    comments= await commentModel.find({id_product:id_product}).sort({date: -1}).populate({path:'id_user'});
+  res.status(200).json({status:1,data:comments});
+    } catch (error) {
+      res.status(200).json({status:-1,error:error});
+    }
 });
 router.post("/add", async function (req, res, next) {
   let { body } = req;
