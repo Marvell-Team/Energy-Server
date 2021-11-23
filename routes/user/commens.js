@@ -25,7 +25,7 @@ router.post("/add", async function (req, res, next) {
     console.log(body);
     const coment=new commentModel({
         content: content,
-        image: image==!undefined?image:null,
+        image: image!==undefined?image:null,
         id_product:id_product,
         id_user:id_user,
         date:new Date()
@@ -33,6 +33,4 @@ router.post("/add", async function (req, res, next) {
     const like=await coment.save();
     res.status(200).json(like);
 });
-
-
 module.exports = router;

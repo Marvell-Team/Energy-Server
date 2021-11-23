@@ -54,6 +54,35 @@ exports.getBillUser = async function getBillBUser(id_user) {
        return {status:-1,error:'Không tìm thấy người dùng'}
    }
 };
+exports.getBillTotal = async function getBillTotal(total) {
+  if(total==='1'){
+  
+      const bill= await billdetailModel.find({status:"Chưa Thanh Toán"}).populate({path:'products.id_product',populate :{path : 'id_image'}});
+      return {status:1,data:bill}
+    
+  }else if(total==='2'){
+      const bill= await billdetailModel.find({status:"Đã Thanh Toán"}).populate({path:'products.id_product',populate :{path : 'id_image'}});
+      return {status:1,data:bill}
+   
+  }else{
+    return {status:-1,error:"Không tìm thấy dữ liệu"}
+  }
+  
+};
+exports.payment = async function payment(id) {
+
+   try {
+    const bill= await billdetailModel.findById(id);
+    bill.status="Đã Thanh Toán";
+    const i= await bill.save();
+ 
+    return {status:1,data:i}
+   } catch (error) {
+    return {status:-1,error:error}
+   }
+
+};
+
 exports.getBillById = async function getBillById(id) {
  
    try {
