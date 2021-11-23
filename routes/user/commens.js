@@ -21,16 +21,19 @@ router.post("/", async function (req, res, next) {
 });
 router.post("/add", async function (req, res, next) {
   let { body } = req;
-  const {content,image,id_product,id_user}= body;
+  const {content,image,id_product,id_user,rate}= body;
+  if(content,id_product,rate!==null){
     console.log(body);
     const coment=new commentModel({
         content: content,
         image: image!==undefined?image:null,
         id_product:id_product,
         id_user:id_user,
-        date:new Date()
+        date:new Date(),
+        rate:rate
     })
     const like=await coment.save();
     res.status(200).json(like);
+  }
 });
 module.exports = router;

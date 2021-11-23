@@ -9,7 +9,8 @@ const cartSchema = new Schema({
     id_product:{type: ObjectId, ref: 'Product'},
     date: { type:Date},
     content: { type:String},
-    image:{type: String}
+    image:{type: String},
+    rate:{ type: Number}
 })
 module.exports = mongoose.model('Comments', 
 cartSchema)

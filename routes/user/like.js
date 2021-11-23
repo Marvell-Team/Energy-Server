@@ -21,7 +21,7 @@ router.post("/status",middle, async function (req, res, next) {
     res.status(200).json(like);
 });
 
-router.get("/:id", async function (req, res, next) {
+router.get("/:id",middle ,async function (req, res, next) {
   let { id } = req.params;
   const user=await userModel.findById(id);
   if(user){
