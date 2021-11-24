@@ -69,7 +69,7 @@ exports.getListProductByCategory = async function getListProductByCategory(categ
 exports.getProductById = async function getProductById(id) {
   try {
     
-    let productt = await ProductModel.findById(id).populate('id_image').exec();
+    let productt = await ProductModel.findById(id).populate('id_image').populate('id_category').exec();
     if(productt ){
      
     return {status:1,data:productt}
@@ -110,12 +110,6 @@ exports.addNew = async function addNewProduct(products) {
       return  {status:1,data:saveServices}
     }
   }
-
-  
-  
-  
-  
-  
 };
 
 exports.addImage = async function addNewImage(image, res) {

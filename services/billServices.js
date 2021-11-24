@@ -3,11 +3,12 @@ var billModel = require("../models/billModel");
 const userModel = require("../models/userModel");
 const cartModel = require("../models/cartModel");
 var CartModel = require("../models/cartModel");
+const notificationModel = require("../models/notificationModel");
 exports.add = async function addBill(params) {
-    const {id_user,id_cart,id_store,name,note,phone} = params;
+    try {
+      const {id_user,id_cart,id_store,name,note,phone} = params;
     const user= await userModel.findById(id_user);
     const cart = await cartModel.findById(id_cart);
-
     let saveServices;
     let saveBill;
     if(user){
@@ -25,9 +26,15 @@ exports.add = async function addBill(params) {
             total:cart.total,
             status:'Chưa Thanh Toán'
          })
-          await modelBillDetail.save().then(data => {
+          await modelBillDetail.save().then(async(data) => {
+            const notification = new notificationModel({
+              id_user: id_user,
+              id_billdetail: data._id,
+              content:'Bạn đã đặt hàng thành công',
+              date:new Date(),
+            })
+            await notification.save()
             saveBill={status:1,data:data};
-            
          })
     }else{
         saveBill={status:-1,error:err};
@@ -40,6 +47,9 @@ exports.add = async function addBill(params) {
     }
     await cart.save();
     return saveBill;
+    }
+    } catch (error) {
+      return {status:-1,error:error}
     }
        
 };
@@ -72,10 +82,16 @@ exports.getBillTotal = async function getBillTotal(total) {
 exports.payment = async function payment(id) {
 
    try {
-    const bill= await billdetailModel.findById(id);
+    const bill= await billdetailModel.findById(id).populate('id_bill');
     bill.status="Đã Thanh Toán";
     const i= await bill.save();
- 
+    const notification = new notificationModel({
+      id_user: bill.id_bill.id_user,
+      id_billdetail: bill._id,
+      content:'Bạn đã thanh toán thành công',
+      date:new Date(),
+    })
+    await notification.save()
     return {status:1,data:i}
    } catch (error) {
     return {status:-1,error:error}
