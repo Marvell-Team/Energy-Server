@@ -7,25 +7,40 @@ const cartModel = require("../models/cartModel");
 
 exports.login = async function login(users) {
   const {email_user,pwd_user}=users;
-  let user=await UserModel.find({email_user:email_user,pwd_user:pwd_user}).exec().then(data=>{
-    
-    if(!(Array.isArray(data) && !data.length)){
-      const {_id,email_user, name_user,phone_user,address_user,avt_user,born_day,gender_user}=data[0];
-      const accesToken = jwt.sign({id:_id},process.env.JWT_KEY);
-      return{status:1,data:{accesToken:accesToken,id:_id,email_user:email_user,name_user:name_user,phone_user:phone_user,address_user:address_user,avt_user:avt_user,born_day:born_day,gender_user:gender_user}};
+  let user=await UserModel.find({email_user:email_user,pwd_user:pwd_user}).exec().then(data=>{  
+    if(data[0].active===true){
+      if(!(Array.isArray(data) && !data.length)){
+        const {_id,email_user, name_user,phone_user,address_user,avt_user,born_day,gender_user}=data[0];
+        const accesToken = jwt.sign({id:_id},process.env.JWT_KEY);
+        return{status:1,data:{accesToken:accesToken,id:_id,email_user:email_user,name_user:name_user,phone_user:phone_user,address_user:address_user,avt_user:avt_user,born_day:born_day,gender_user:gender_user}};
+      }else{
+        return{status:-1,error:"Khong tim thay du lieu"};
+      }
     }else{
-      return{status:-1,message:"Khong tim thay du lieu"};
+      return{status:-1,error:"Tài khoản đã bị khóa"};
     }
   }).catch(err =>{
-    return {status:-1,message:err};
+    return {status:-1,error:err};
   });
   return user;
 };
 
 exports.getListUser = async function getListUser() {
   let userr = await UserModel.find();
-
   return userr;
+};
+
+exports.blockUserById = async function blockUserById(id) {
+  try {
+    let user = await userModel.findById(id);
+  if(user){
+    user.active=!user.active;
+  }
+  await user.save();
+  return {status:1,data:user}
+  } catch (error) {
+    return {status:-1,error:error}
+  }
 };
 
 exports.getUserById = async function getUserById(id) {

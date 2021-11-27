@@ -11,7 +11,8 @@ const userSchema = new Schema({
     avt_user: { type: String },
     pwd_user: { type: String },
     gender_user:{ type: String},
-    born_day:{type:Date}
+    born_day:{type:Date},
+    active : { type:Boolean}
 })
 
 module.exports = mongoose.model('users', 

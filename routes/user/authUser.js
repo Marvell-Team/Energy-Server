@@ -9,7 +9,6 @@ var userController = require("../../controllers/userController");
 router.post('/login', async (req, res) =>{
     let { body } = req;
   let users = await userController.login(body);
-
   res.json(users);
   })
 module.exports = router;

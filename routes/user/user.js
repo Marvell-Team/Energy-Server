@@ -51,3 +51,10 @@ router.get("/admin/:id",async function (req, res, next) {
   res.status(200).json(users);
 });
 module.exports = router;
+
+router.get("/active/:id",async function (req, res, next) {
+  let { id } = req.params;
+  let users = await userController.blockUser(id);
+  res.status(200).json(users);
+});
+module.exports = router;

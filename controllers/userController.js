@@ -22,12 +22,16 @@ exports.addNew = async function addNewUser(params, res) {
       avt_user:'',
       gender_user:'',
       born_day:null,
+      active : true
     })
     // Tạo mới một sản phẩm
   return await userServices.addNew(modelUser, res);
   }
   
   
+};
+exports.blockUser = async function blockUserById(id) {
+  return await userServices.blockUserById(id);
 };
 
 exports.login = async function loginUser( params) {
