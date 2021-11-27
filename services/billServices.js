@@ -71,8 +71,7 @@ exports.getBillTotal = async function getBillTotal(total) {
       return {status:1,data:bill}
     
   }else if(total==='2'){
-      const bill= await billdetailModel.find({status:"Đã Thanh Toán"}).populate({path:'products.id_product',populate :{path : 'id_image'}});
-      return {status:1,data:bill}
+      const bill= await billdetailModel.find({status:"Đã Thanh Toán"}).populate({path:'products.id_product',populate :{path : 'id_image'}}).populate({path:'id_bill',populate :{path : 'id_user'}}).populate('id_store');
    
   }else{
     return {status:-1,error:"Không tìm thấy dữ liệu"}
