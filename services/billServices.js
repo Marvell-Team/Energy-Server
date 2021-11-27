@@ -67,7 +67,7 @@ exports.getBillUser = async function getBillBUser(id_user) {
 exports.getBillTotal = async function getBillTotal(total) {
   if(total==='1'){
   
-      const bill= await billdetailModel.find({status:"Chưa Thanh Toán"}).populate({path:'products.id_product',populate :{path : 'id_image'}});
+      const bill= await billdetailModel.find({status:"Chưa Thanh Toán"}).populate({path:'products.id_product',populate :{path : 'id_image'}}).populate({path:'id_bill',populate :{path : 'id_user'}}).populate('id_store');
       return {status:1,data:bill}
     
   }else if(total==='2'){
