@@ -45,7 +45,7 @@ exports.blockUserById = async function blockUserById(id) {
 
 exports.getUserById = async function getUserById(id) {
   let userr = await UserModel.findById(id).then(data => {
-    return {status:1,data:{email_user:data.email_user,name_user:data.name_user,phone_user:data.phone_user,address_user:data.address_user,avt_user:data.avt_user,gender_user:data.gender_user,born_day:data.born_day}};
+    return {status:1,data:{email_user:data.email_user,name_user:data.name_user,phone_user:data.phone_user,address_user:data.address_user,avt_user:data.avt_user,gender_user:data.gender_user,born_day:data.born_day,active:data.active}};
   }).catch(err =>{
     return {status:-1,message:err};
   });

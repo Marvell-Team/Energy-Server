@@ -25,6 +25,14 @@ router.get("/:id",middle, async function (req, res, next) {
   res.status(200).json(users);
 });
 
+router.get("/admin/:id", async function (req, res, next) {
+  
+  let { id } = req.params;
+  console.log(id+"id")
+  let users = await userController.getUserById(id);
+  res.status(200).json(users);
+});
+
 // Hàm chỉnh sửa
 router.post("/edit-user/:id",middle, async function (req, res, next) {
   let { id } = req.params;
