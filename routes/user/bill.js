@@ -1,6 +1,7 @@
 var express = require("express");
 var router = express.Router();
 var billController = require("../../controllers/billController");
+const billModel = require("../../models/billModel");
 var auth = require("../../utilities/authen");
 var middle = [auth.authenToken];
 
@@ -45,5 +46,14 @@ router.post("/payment/:id", async function (req, res, next) {
 router.get("/", async function (req, res, next) {
   const bill = await billController.getBill();
   res.status(200).json(bill);
+});
+
+router.get("/date", async function (req, res, next) {
+  // const bill= billModel.aggregate([
+  //   {$project: {name: 1, month: {$month: '$date_bill'}}},
+  //   {$match: {month: 11}}
+  // ]);
+
+  // res.status(200).json(bill);
 });
 module.exports = router;

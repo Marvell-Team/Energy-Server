@@ -25,7 +25,6 @@ exports.getListProduct = async function getListProduct() {
  try {
    
     let productt = await ProductModel.find().populate('id_image');
-
     if(productt){
     return {status:1,data:productt}
   }else{
