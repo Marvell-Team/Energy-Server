@@ -87,10 +87,50 @@ router.get("/month", async function (req, res, next) {
      
     ]);
     let item=[];
+    var month;
+    if(i===1){
+      month='Jan'
+    }
+    if(i===2){
+      month='Feb'
+    }
+    if(i===3){
+      month='Mar'
+    }
+    if(i===4){
+      month='Apr'
+    }
+    if(i===5){
+      month='May'
+    }
+    if(i===6){
+      month='Jun'
+    }
+    if(i===7){
+      month='Jul'
+    }
+    if(i===8){
+      month='Agu'
+    }
+    if(i===9){
+      month='Sep'
+    }
+    if(i===9){
+      month='Oct'
+    }
+    if(i===10){
+      month='Nov'
+    }
+    if(i===11){
+      month='Dec'
+    }
+    if(i===12){
+      month='Jan'
+    }
     if (Array.isArray(bill) && bill.length) {
-      item={month:i,total:bill[0].sum};
+      item={month:month,total:bill[0].sum};
     }else{
-      item={month:i,total:0};
+      item={month:month,total:0};
     }
     result.push(item)
   }
