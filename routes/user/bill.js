@@ -1,4 +1,5 @@
 var express = require("express");
+const moment = require("moment");
 var router = express.Router();
 var billController = require("../../controllers/billController");
 const billModel = require("../../models/billModel");
@@ -48,12 +49,30 @@ router.get("/", async function (req, res, next) {
   res.status(200).json(bill);
 });
 
-router.get("/date", async function (req, res, next) {
-  // const bill= billModel.aggregate([
-  //   {$project: {name: 1, month: {$month: '$date_bill'}}},
-  //   {$match: {month: 11}}
-  // ]);
+router.get("/date/:date", async function (req, res, next) {
+  let { date } = req.params;
+  let result;
+  if(date==='day'){
+    const today = moment().startOf('day')
+    const bill=await billModel.find({
+    "date_bill" : {
+      "$gte": today.toDate(),
+       "$lt" : moment(today).endOf('day').toDate()
+    }
+})
+    result= {status:1,data:bill}
+  }else if(date==='month'){
+    const bill=await billModel.find({ "$expr": { "$eq": [{ "$month": "$date_bill" }, new Date().getMonth()+1] } })
+    result= {status:1,data:bill}
+  }else if(date==='year'){
+    const bill=await billModel.find({ "$expr": { "$eq": [{ "$year": "$date_bill" }, new Date().getFullYear()] } })
+    result= {status:1,data:bill}
+  }else{
+    result= {status:-1,data:'Có lỗi xảy ra'}
+  }
 
-  // res.status(200).json(bill);
+
+
+   res.status(200).json(result);
 });
 module.exports = router;
