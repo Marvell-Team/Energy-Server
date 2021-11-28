@@ -1,15 +1,15 @@
 var CartModel = require("../models/cartModel");
 
 exports.edit = async function editCart(cardEdit) {
- let cart = await CartModel.findById(cardEdit.id);
-    const { products,total } = cardEdit;
-    console.log("tgtgtg", cart);
-    if (cart) {
-      cart.products = products !== undefined ? products : cart.products;
-      cart.total = total !== undefined ? total : cart.total;
-    }
-    await cart.save();
-    return { status: 1, data: cart };
+  let cart = await CartModel.findById(cardEdit.id);
+  const { products,total } = cardEdit;
+  console.log("tgtgtg", cart);
+  if (cart) {
+    cart.products = products !== undefined ? products : cart.products;
+    cart.total = total !== undefined ? total : cart.total;
+  }
+  await cart.save();
+  return { status: 1, data: cart };
 };
 exports.getCart = async function getCartByIdUser(id) {
   try {

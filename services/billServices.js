@@ -14,7 +14,7 @@ exports.add = async function addBill(params) {
     if(user){
         const modelBill = new billModel({
             id_user: id_user,
-            date_bill: Date.now(),
+            date_bill: new Date(),
             note_bill:{name:name,phone:phone}
           })
          saveServices = await modelBill.save();
