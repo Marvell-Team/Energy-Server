@@ -8,14 +8,13 @@ var middle = [auth.authenticate, upload.single("imgProduct")];
 
 router.get("/products", async function (req, res, next) {
   let products = await productController.getListProduct();
-  res.send(products)
+  res.send(products);
 });
-
 
 router.get("/products/:id", async function (req, res, next) {
   let { id } = req.params;
-  let product = await productController.getProductById(id)
-  res.send({product})
+  let product = await productController.getProductById(id);
+  res.send({ product });
 });
 
 //api user
