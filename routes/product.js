@@ -7,8 +7,9 @@ var categoryCotroller = require("../controllers/categoryController");
 var middle = [auth.authenToken, upload.single("imgProduct")];
 var middle2 = [auth.authenToken, upload.array("imgProduct2")];
 
-router.get("/", async function (req, res, next) {
-  let list = await productController.getListProduct();
+router.post("/type", async function (req, res, next) {
+  const {body}=req
+  let list = await productController.getListProduct(body);
  // res.render("product", { listTable: list, title: "Yame Admin" });
   res.status(200).json(list)
 });
@@ -17,17 +18,18 @@ router.get("/like", async function (req, res, next) {
  // res.render("product", { listTable: list, title: "Yame Admin" });
   res.status(200).json(list)
 });
-router.get("/:categorys", async function (req, res, next) {
+router.post("/:categorys", async function (req, res, next) {
   let { categorys } = req.params;
+  const {body}=req;
   console.log(categorys+'aa');
-  let list = await productController.getListProductByCategory(categorys);
+  let list = await productController.getListProductByCategory(categorys,body);
  // res.render("product", { listTable: list, title: "Yame Admin" });
   res.status(200).json(list)
 });
-router.get("/categorys/:id", async function (req, res, next) {
+router.post("/categorys/:id", async function (req, res, next) {
   let { id } = req.params;
-
-  let list = await productController.getListProductByIdCategorys(id);
+  let { body } = req;
+  let list = await productController.getListProductByIdCategorys(id,body);
  // res.render("product", { listTable: list, title: "Yame Admin" });
   res.status(200).json(list)
 });
@@ -53,9 +55,6 @@ router.post("/",  async function (req, res, next) {
     body = { ...body, id_image: images._id };
     const product= await productController.addNew(body, res);
     res.status(200).json(product);
-  
-  
-  
   // res.redirect("/class");
 });
 

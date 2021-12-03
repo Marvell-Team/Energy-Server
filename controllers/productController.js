@@ -1,21 +1,21 @@
 var productServices = require("../services/productServices");
 var productModel = require("../models/productModel");
 var imageModel = require("../models/imageModel");
-exports.getListProduct = async function getListProduct() {
-  return await productServices.getListProduct();
+exports.getListProduct = async function getListProduct(params) {
+  return await productServices.getListProduct(params);
 };
 exports.getListLikeProduct = async function getListLikeProduct() {
   return await productServices.getListLikeProduct();
 };
 exports.getListProductByCategory = async function getListProductByCategory(
-  categorys
+  categorys,body
 ) {
-  return await productServices.getListProductByCategory(categorys);
+  return await productServices.getListProductByCategory(categorys,body);
 };
 
 exports.getListProductByIdCategorys =
-  async function getListProductByIdCategorys(id) {
-    return await productServices.getListProductByIdCategorys(id);
+  async function getListProductByIdCategorys(id,body) {
+    return await productServices.getListProductByIdCategorys(id,body);
   };
 exports.getProductById = async function getProductById(id) {
   return await productServices.getProductById(id);

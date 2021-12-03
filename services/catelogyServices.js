@@ -17,8 +17,6 @@ exports.getListCategoriesbyCategorys = async function getListCategoriesbyCategor
     return {status:-1,error:'Không lấy được dữ liệu'};
   }
 };
-
-
 exports.addCategory= async function addNewCategory(categories, res) {
   let saveServices = await categories.save();
   if(saveServices){

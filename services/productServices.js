@@ -7,29 +7,53 @@ var ImageModel = require("../models/imageModel");
 const likeModel = require("../models/likeModel");
 const productModel = require("../models/productModel");
 
-exports.getListProductByIdCategorys = async function getListProductByIdCategorys(id) {
+exports.getListProductByIdCategorys = async function getListProductByIdCategorys(id,body) {
   try {
-    
-     let productt = await ProductModel.find({id_category: id}).populate('id_image');
+    const {price,sell}=body; 
+    if(sell!==null){
+     console.log(sell) 
+    }else if(price!==null){
+      let productt = await ProductModel.find({id_category: id}).populate('id_image').sort({'price_product':price});
+      if(productt){
+      return {status:1,data:productt}
+    }else{
+      return {status:-1,error:'Đã xảy ra lỗi kết nỗi'}
+    }
+    }else{
+      let productt = await ProductModel.find({id_category: id}).populate('id_image');
  
-     if(productt){
-     return {status:1,data:productt}
-   }else{
-     return {status:-1,error:'Đã xảy ra lỗi kết nỗi'}
-   }
+      if(productt){
+      return {status:1,data:productt}
+    }else{
+      return {status:-1,error:'Đã xảy ra lỗi kết nỗi'}
+    }
+    }
+     
    } catch (error) {
      return {status:-1,error:error}
    }
  };
-exports.getListProduct = async function getListProduct() {
+exports.getListProduct = async function getListProduct(body) {
  try {
-   
-    let productt = await ProductModel.find().populate('id_image');
-    if(productt){
-    return {status:1,data:productt}
-  }else{
-    return {status:-1,error:'Đã xảy ra lỗi kết nỗi'}
-  }
+    const {price,sell}=body;
+    if(sell!==null){
+      console.log(sell) 
+     }else if(price!==null){
+       let productt = await ProductModel.find().populate('id_image').sort({'price_product':price});
+       if(productt){
+       return {status:1,data:productt}
+     }else{
+       return {status:-1,error:'Đã xảy ra lỗi kết nỗi'}
+     }
+     }else{
+       let productt = await ProductModel.find().populate('id_image');
+  
+       if(productt){
+       return {status:1,data:productt}
+     }else{
+       return {status:-1,error:'Đã xảy ra lỗi kết nỗi'}
+     }
+     }
   } catch (error) {
     return {status:-1,error:error}
   }
@@ -47,19 +71,33 @@ exports.getListLikeProduct = async function getListLikeProduct() {
      return {status:-1,error:error}
    }
  };
-exports.getListProductByCategory = async function getListProductByCategory(categorys) {
-
+exports.getListProductByCategory = async function getListProductByCategory(categorys,body) {
+  const {price,sell}=body
   try {
-    
-     let productt = await ProductModel.find().populate({path:'id_category',match: {
-      categorys:categorys
-    }}).populate('id_image').exec();
- 
-     if(productt ){
-     return {status:1,data:productt}
-   }else{
-     return {status:-1,error:'Đã xảy ra lỗi kết nỗi'}
-   }
+    const {price,sell}=body;
+    if(sell!==null){
+      console.log(sell) 
+     }else if(price!==null){
+      let productt = await ProductModel.find().populate({path:'id_category',match: {
+        categorys:categorys
+      }}).populate('id_image').sort({'price_product':-1});
+   
+       if(productt ){
+       return {status:1,data:productt}
+     }else{
+       return {status:-1,error:'Đã xảy ra lỗi kết nỗi'}
+     }
+     }else{
+      let productt = await ProductModel.find().populate({path:'id_category',match: {
+        categorys:categorys
+      }}).populate('id_image');
+       if(productt ){
+       return {status:1,data:productt}
+     }else{
+       return {status:-1,error:'Đã xảy ra lỗi kết nỗi'}
+     }
+     }
+     
    } catch (error) {
      return {status:-1,error:error}
    }
