@@ -4,43 +4,76 @@ const userModel = require("../models/userModel");
 const cartModel = require("../models/cartModel");
 var CartModel = require("../models/cartModel");
 const notificationModel = require("../models/notificationModel");
+const storeModel = require("../models/storeModel");
+const ProductModel = require("../models/productModel");
 exports.add = async function addBill(params) {
   try {
     const { id_user, products, total, id_store, name, note, phone } = params;
     const user = await userModel.findById(id_user);
+
     let saveServices;
     let saveBill;
     if (user) {
-      const modelBill = new billModel({
-        id_user: id_user,
-        date_bill: new Date(),
-        note_bill: { name: name, phone: phone },
-      });
-      saveServices = await modelBill.save();
-      const { _id } = saveServices;
-      const modelBillDetail = new billdetailModel({
-        id_bill: _id,
-        products: products,
-        id_store: id_store,
-        total: total,
-        status: false,
-      });
-      await modelBillDetail.save().then(async (data) => {
-        const notification = new notificationModel({
+      const store = await storeModel.findById(id_store);
+      console.log(store.products);
+      const stores = store.products;
+      var check = true;
+      var soldout = "";
+      for (var i = 0; i < products.length; i++) {
+        var soldout2 = soldout;
+        const bb = stores.findIndex(
+          (x) => x.id_product._id.toHexString() === products[i].id_product
+        );
+
+        if (bb === -1) {
+          const product = await ProductModel.findById(products[i].id_product);
+          soldout = soldout2 + "" + product.nameProduct + ",";
+          check = false;
+        } else {
+          if (stores[bb].quantity > 0) {
+            stores[bb].quantity = stores[bb].quantity - 1;
+          } else {
+            const product = await ProductModel.findById(products[i].id_product);
+            soldout = soldout2 + "" + product.nameProduct + ",";
+          }
+        }
+      }
+      if (check === true) {
+        store.products = stores;
+        await store.save();
+        const modelBill = new billModel({
           id_user: id_user,
-          id_billdetail: data._id,
-          content: "Bạn đã đặt hàng thành công",
-          date: new Date(),
+          date_bill: new Date(),
+          note_bill: { name: name, phone: phone },
         });
-        await notification.save();
-        saveBill = { status: 1, data: data };
-      });
+        saveServices = await modelBill.save();
+        const { _id } = saveServices;
+        const modelBillDetail = new billdetailModel({
+          id_bill: _id,
+          products: products,
+          id_store: id_store,
+          total: total,
+          status: false,
+        });
+        await modelBillDetail.save().then(async (data) => {
+          const notification = new notificationModel({
+            id_user: id_user,
+            id_billdetail: data._id,
+            content: "Bạn đã đặt hàng thành công",
+            date: new Date(),
+          });
+          await notification.save();
+          saveBill = { status: 1, data: data };
+        });
+      } else {
+        saveBill = { status: -1, error: soldout + " hiện đang hết hàng" };
+      }
     } else {
       saveBill = { status: -1, error: err };
     }
     return saveBill;
   } catch (error) {
-    return { status: -1, error: error };
+    return { status: -1, error: "Có lỗi gì đó xảy ra" };
   }
 };
 
@@ -91,7 +124,7 @@ exports.payment = async function payment(id) {
       date: new Date(),
     });
     await notification.save();
-    return { status: 1, data: i };
+    return { status: 1, data: bill };
   } catch (error) {
     return { status: -1, error: error };
   }

@@ -87,10 +87,12 @@ router.get("/month", async function (req, res, next) {
               $exists: true,
               $ne: [],
             },
+            status: true,
           },
         },
         { $group: { _id: i, sum: { $sum: "$total" } } },
       ]);
+      console.log(bill);
       let item = [];
       var month;
       if (i === 1) {

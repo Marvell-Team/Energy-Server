@@ -57,18 +57,6 @@ router.post("/", async function (req, res, next) {
   // res.redirect("/class");
 });
 
-// Set data từ form
-router.get(
-  "/edit-product/:id",
-  auth.authenticate,
-  async function (req, res, next) {
-    let id = req.params.id;
-    let ch = await productController.getProductById(id);
-    let store = await categoryCotroller.getListCategories();
-    res.render("edit-product", { product: ch, store, title: "Edit Product" });
-  }
-);
-
 // Hàm chỉnh sửa
 router.post("/edit-product/:id", async function (req, res, next) {
   let { id } = req.params;
