@@ -30,11 +30,11 @@ exports.add = async function addBill(params) {
           check = false;
         } else {
           if (stores[bb].quantity > 0) {
-            check = false;
             stores[bb].quantity = stores[bb].quantity - 1;
           } else {
             const product = await ProductModel.findById(products[i].id_product);
             soldout = soldout2 + "" + product.nameProduct + ",";
+            check = false;
           }
         }
       }
