@@ -8,9 +8,8 @@ const storeModel = require("../models/storeModel");
 const ProductModel = require("../models/productModel");
 exports.add = async function addBill(params) {
   try {
-    const { id_user, products, total, id_store, name, note, phone } = params;
+    const { id_user, products, total, id_store, name, phone } = params;
     const user = await userModel.findById(id_user);
-
     let saveServices;
     let saveBill;
     if (user) {
@@ -31,6 +30,7 @@ exports.add = async function addBill(params) {
           check = false;
         } else {
           if (stores[bb].quantity > 0) {
+            check = false;
             stores[bb].quantity = stores[bb].quantity - 1;
           } else {
             const product = await ProductModel.findById(products[i].id_product);
@@ -38,6 +38,7 @@ exports.add = async function addBill(params) {
           }
         }
       }
+      console.log(check);
       if (check === true) {
         store.products = stores;
         await store.save();
