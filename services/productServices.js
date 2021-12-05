@@ -3,6 +3,7 @@ var ProductModel = require("../models/productModel");
 var ImageModel = require("../models/imageModel");
 const likeModel = require("../models/likeModel");
 const productModel = require("../models/productModel");
+const storeModel = require("../models/storeModel");
 
 exports.getListProductByIdCategorys =
   async function getListProductByIdCategorys(id, body) {
@@ -250,6 +251,19 @@ exports.edit = async function editProduct(products) {
 exports.remove = async function removeProductById(id) {
   try {
     let productRemove = await ProductModel.findByIdAndRemove(id);
+    return { status: 1, data: productRemove };
+  } catch (error) {
+    return { status: -1, error: error };
+  }
+};
+exports.getProductByStore = async function getProductByStore(id) {
+  try {
+    let productRemove = await storeModel
+      .findById(id)
+      .populate({
+        path: "products.id_product",
+        populate: { path: "id_image" },
+      });
     return { status: 1, data: productRemove };
   } catch (error) {
     return { status: -1, error: error };

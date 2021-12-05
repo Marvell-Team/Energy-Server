@@ -64,6 +64,14 @@ router.post("/edit-product/:id", async function (req, res, next) {
   const product = await productController.edit(id, body);
   res.status(200).json(product);
 });
+
+// Hàm chỉnh sửa
+router.get("/store/:id", async function (req, res, next) {
+  let { id } = req.params;
+  const product = await productController.getProductByStore(id);
+  res.status(200).json(product);
+});
+
 // Delete
 router.delete("/delete/:id", async function (req, res, next) {
   let id = req.params.id;

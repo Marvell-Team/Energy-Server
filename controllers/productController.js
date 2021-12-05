@@ -8,17 +8,21 @@ exports.getListLikeProduct = async function getListLikeProduct() {
   return await productServices.getListLikeProduct();
 };
 exports.getListProductByCategory = async function getListProductByCategory(
-  categorys,body
+  categorys,
+  body
 ) {
-  return await productServices.getListProductByCategory(categorys,body);
+  return await productServices.getListProductByCategory(categorys, body);
 };
 
 exports.getListProductByIdCategorys =
-  async function getListProductByIdCategorys(id,body) {
-    return await productServices.getListProductByIdCategorys(id,body);
+  async function getListProductByIdCategorys(id, body) {
+    return await productServices.getListProductByIdCategorys(id, body);
   };
 exports.getProductById = async function getProductById(id) {
   return await productServices.getProductById(id);
+};
+exports.getProductByStore = async function getProductByStore(id) {
+  return await productServices.getProductByStore(id);
 };
 
 exports.addNew = async function addNewProduct(params) {
