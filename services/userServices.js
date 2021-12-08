@@ -116,7 +116,7 @@ exports.addNew = async function addNewUser(users, res) {
         };
       })
       .catch((err) => {
-        return { status: -1, message: err };
+        return { status: -1, error: "Đã xảy ra lỗi gì đó" };
       });
     return saveServices;
   }

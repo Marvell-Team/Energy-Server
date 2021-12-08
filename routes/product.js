@@ -10,7 +10,11 @@ var middle2 = [auth.authenToken, upload.array("imgProduct2")];
 router.get("/", async function (req, res, next) {
   const { body } = req;
   let list = await productController.getListProduct(body);
-  // res.render("product", { listTable: list, title: "Yame Admin" });
+  res.status(200).json(list);
+});
+router.post("/lsr", async function (req, res, next) {
+  const { body } = req;
+  let list = await productController.getListProductLSR(body);
   res.status(200).json(list);
 });
 router.get("/like", async function (req, res, next) {
@@ -18,7 +22,7 @@ router.get("/like", async function (req, res, next) {
   // res.render("product", { listTable: list, title: "Yame Admin" });
   res.status(200).json(list);
 });
-router.post("/:categorys", async function (req, res, next) {
+router.get("/:categorys", async function (req, res, next) {
   let { categorys } = req.params;
   const { body } = req;
   console.log(categorys + "aa");

@@ -10,7 +10,14 @@ exports.getListProductByIdCategorys =
     try {
       const { price, sell } = body;
       if (sell !== null) {
-        console.log(sell);
+        let productt = await ProductModel.find({ id_category: id })
+          .populate("id_image")
+          .sort({ quantity_product: -1 });
+        if (productt) {
+          return { status: 1, data: productt };
+        } else {
+          return { status: -1, error: "Đã xảy ra lỗi kết nỗi" };
+        }
       } else if (price !== null) {
         let productt = await ProductModel.find({ id_category: id })
           .populate("id_image")
@@ -35,6 +42,40 @@ exports.getListProductByIdCategorys =
       return { status: -1, error: error };
     }
   };
+exports.getListProductLSR = async function getListProductLSR(body) {
+  try {
+    const { price, sell } = body;
+    if (sell !== null) {
+      let productt = await ProductModel.find()
+        .populate("id_image")
+        .sort({ quantity_product: -1 });
+      if (productt) {
+        return { status: 1, data: productt };
+      } else {
+        return { status: -1, error: "Đã xảy ra lỗi kết nỗi" };
+      }
+    } else if (price !== null) {
+      let productt = await ProductModel.find()
+        .populate("id_image")
+        .sort({ price_product: price });
+      if (productt) {
+        return { status: 1, data: productt };
+      } else {
+        return { status: -1, error: "Đã xảy ra lỗi kết nỗi" };
+      }
+    } else {
+      let productt = await ProductModel.find().populate("id_image");
+
+      if (productt) {
+        return { status: 1, data: productt };
+      } else {
+        return { status: -1, error: "Đã xảy ra lỗi kết nỗi" };
+      }
+    }
+  } catch (error) {
+    return { status: -1, error: error };
+  }
+};
 exports.getListProduct = async function getListProduct(body) {
   try {
     // const {price,sell}=body;
@@ -76,11 +117,23 @@ exports.getListProductByCategory = async function getListProductByCategory(
   categorys,
   body
 ) {
-  const { price, sell } = body;
   try {
     const { price, sell } = body;
     if (sell !== null) {
-      console.log(sell);
+      let productt = await ProductModel.find()
+        .populate({
+          path: "id_category",
+          match: {
+            categorys: categorys,
+          },
+        })
+        .populate("id_image");
+
+      if (productt) {
+        return { status: 1, data: productt };
+      } else {
+        return { status: -1, error: "Đã xảy ra lỗi kết nỗi" };
+      }
     } else if (price !== null) {
       let productt = await ProductModel.find()
         .populate({
@@ -258,12 +311,10 @@ exports.remove = async function removeProductById(id) {
 };
 exports.getProductByStore = async function getProductByStore(id) {
   try {
-    let productRemove = await storeModel
-      .findById(id)
-      .populate({
-        path: "products.id_product",
-        populate: { path: "id_image" },
-      });
+    let productRemove = await storeModel.findById(id).populate({
+      path: "products.id_product",
+      populate: { path: "id_image" },
+    });
     return { status: 1, data: productRemove };
   } catch (error) {
     return { status: -1, error: error };

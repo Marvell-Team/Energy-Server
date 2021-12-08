@@ -6,6 +6,7 @@ var CartModel = require("../models/cartModel");
 const notificationModel = require("../models/notificationModel");
 const storeModel = require("../models/storeModel");
 const ProductModel = require("../models/productModel");
+const productModel = require("../models/productModel");
 exports.add = async function addBill(params) {
   try {
     const { id_user, products, total, id_store, name, phone } = params;
@@ -117,6 +118,15 @@ exports.payment = async function payment(id) {
   try {
     const bill = await billdetailModel.findById(id).populate("id_bill");
     bill.status = true;
+    const products = bill.products;
+    console.log(products);
+    for (var is = 0; is < products.length; is++) {
+      console.log(products[is].id_product);
+      const product = await productModel.findById(products[is].id_product);
+      console.log(product);
+      product.quantity_product += products[is].amount;
+      await product.save();
+    }
     const i = await bill.save();
     const notification = new notificationModel({
       id_user: bill.id_bill.id_user,
@@ -125,6 +135,7 @@ exports.payment = async function payment(id) {
       date: new Date(),
     });
     await notification.save();
+
     return { status: 1, data: bill };
   } catch (error) {
     return { status: -1, error: error };
