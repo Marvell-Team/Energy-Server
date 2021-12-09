@@ -3,6 +3,8 @@ const mongoose = require("mongoose");
 
 var router = express.Router();
 var likeController = require("../../controllers/likeController");
+const billdetailModel = require("../../models/billdetailModel");
+const billModel = require("../../models/billModel");
 const commentModel = require("../../models/commentModel");
 const LikeModel = require("../../models/likeModel");
 var auth = require("../../utilities/authen");
@@ -23,20 +25,44 @@ router.post("/", async function (req, res, next) {
   }
 });
 router.post("/add", async function (req, res, next) {
-  let { body } = req;
-  const { content, image, id_product, id_user, rate } = body;
-  if ((content, id_product, rate !== null)) {
-    console.log(body);
-    const coment = new commentModel({
-      content: content,
-      image: image !== undefined ? image : null,
-      id_product: id_product,
-      id_user: id_user,
-      date: new Date(),
-      rate: rate,
-    });
-    const like = await coment.save();
-    res.status(200).json(like);
+  try {
+    let { body } = req;
+    const { content, image, id_product, id_user, rate } = body;
+    const bill = await billdetailModel
+      .find({
+        products: { $elemMatch: { id_product: id_product } },
+      })
+      .populate({ path: "id_bill", match: { id_user: id_user } });
+    const checkCmt = bill.findIndex((x) => x.id_bill !== null);
+    if (checkCmt !== -1) {
+      const checkReplayCmt = await commentModel.find({
+        id_user: id_user,
+        id_product: id_product,
+      });
+      if (Array.isArray(checkReplayCmt) && checkReplayCmt.length) {
+        res
+          .status(202)
+          .json({ status: -1, error: "Bạn đã đánh giá sản phẩm này rồi" });
+      } else {
+        if ((content, id_product, rate !== null)) {
+          console.log(body);
+          const coment = new commentModel({
+            content: content,
+            image: image !== undefined ? image : null,
+            id_product: id_product,
+            id_user: id_user,
+            date: new Date(),
+            rate: rate,
+          });
+          const like = await coment.save();
+          res.status(200).json({ status: 1, data: like });
+        }
+      }
+    } else {
+      res.status(202).json({ status: -1, error: "Bạn chưa mua sản phẩm này" });
+    }
+  } catch (error) {
+    res.status(404).json({ status: -1, error: "Có lỗi gì đó xảy ra" });
   }
 });
 router.get("/averaged/:idProduct", async function (req, res, next) {

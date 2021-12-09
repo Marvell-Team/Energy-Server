@@ -220,10 +220,10 @@ exports.addNew = async function addNewProduct(products) {
         camera_late: camera_late_product,
         pin: pin_product,
       },
-      quantity_product: quantity_product,
+      quantity_product: 0,
       id_image: id_image,
       id_category: id_category,
-      stock: quantity_product > 0 ? true : false,
+      stock: true,
       avg_vote: 0,
     });
     let saveServices = await modelProduct.save();
