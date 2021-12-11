@@ -90,7 +90,15 @@ router.get("/month", async function (req, res, next) {
             status: true,
           },
         },
-        { $group: { _id: i, sum: { $sum: "$total" } } },
+        {
+          $group: {
+            _id: i,
+            sum: { $sum: "$total" },
+            amount: {
+              $sum: { $size: "$products" },
+            },
+          },
+        },
       ]);
       console.log(bill);
       let item = [];

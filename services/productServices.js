@@ -12,6 +12,7 @@ exports.getListProductByIdCategorys =
       if (sell !== null) {
         let productt = await ProductModel.find({ id_category: id })
           .populate("id_image")
+          .populate("id_category")
           .sort({ quantity_product: -1 });
         if (productt) {
           return { status: 1, data: productt };

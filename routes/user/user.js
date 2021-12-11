@@ -79,7 +79,6 @@ router.get("/admin/:id", async function (req, res, next) {
     res.status(404).json(users);
   }
 });
-module.exports = router;
 
 router.get("/active/:id", async function (req, res, next) {
   let { id } = req.params;
