@@ -53,8 +53,12 @@ exports.login = async function login(users) {
 };
 
 exports.getListUser = async function getListUser() {
-  let userr = await UserModel.find();
-  return userr;
+  try {
+    let userr = await UserModel.find();
+    return { status: 1, data: userr };
+  } catch (error) {
+    return { status: -1, error: "Có lỗi xảy ra" };
+  }
 };
 
 exports.blockUserById = async function blockUserById(id) {
@@ -88,7 +92,7 @@ exports.getUserById = async function getUserById(id) {
       };
     })
     .catch((err) => {
-      return { status: -1, message: err };
+      return { status: -1, error: err };
     });
   return userr;
 };
