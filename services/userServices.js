@@ -116,6 +116,7 @@ exports.addNew = async function addNewUser(users, res) {
             avt_user: data.avt_user,
             gender_user: data.gender_user,
             born_day: data.born_day,
+            active: true,
           },
         };
       })
