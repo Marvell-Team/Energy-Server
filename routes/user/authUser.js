@@ -35,8 +35,8 @@ router.get("/forgotPWD/:phone", async (req, res) => {
 });
 
 router.post("/verify", async (req, res) => {
-  const { code, phoneNumber, email } = req.body;
-  const user = await userModel.findOne({ email_user: email });
+  const { code, phoneNumber } = req.body;
+  const user = await userModel.findOne({ phone_user: phoneNumber });
   console.log(phoneNumber);
   client.verify
     .services(config.serviceID)
