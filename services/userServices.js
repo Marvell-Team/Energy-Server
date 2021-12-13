@@ -23,22 +23,27 @@ exports.login = async function login(users) {
             avt_user,
             born_day,
             gender_user,
+            active,
           } = data[0];
           const accesToken = jwt.sign({ id: _id }, process.env.JWT_KEY);
-          return {
-            status: 1,
-            data: {
-              accesToken: accesToken,
-              id: _id,
-              email_user: email_user,
-              name_user: name_user,
-              phone_user: phone_user,
-              address_user: address_user,
-              avt_user: avt_user,
-              born_day: born_day,
-              gender_user: gender_user,
-            },
-          };
+          if (active === true) {
+            return {
+              status: 1,
+              data: {
+                accesToken: accesToken,
+                id: _id,
+                email_user: email_user,
+                name_user: name_user,
+                phone_user: phone_user,
+                address_user: address_user,
+                avt_user: avt_user,
+                born_day: born_day,
+                gender_user: gender_user,
+              },
+            };
+          } else {
+            return { status: -1, error: "Tài khoản bạn đã bị khóa" };
+          }
         } else {
           return { status: -1, error: "Khong tim thay du lieu" };
         }
@@ -116,7 +121,6 @@ exports.addNew = async function addNewUser(users, res) {
             avt_user: data.avt_user,
             gender_user: data.gender_user,
             born_day: data.born_day,
-            active: true,
           },
         };
       })

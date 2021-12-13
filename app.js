@@ -22,9 +22,9 @@ var apisRouter = require("./routes/api");
 var cartRouter = require("./routes/user/Cart");
 var storeRouter = require("./routes/user/store");
 var billRouter = require("./routes/user/bill");
-var likeRouter = require("./routes/user/like")
-var commentRouter= require("./routes/user/commens");
-var notificationRouter= require("./routes/user/notification")
+var likeRouter = require("./routes/user/like");
+var commentRouter = require("./routes/user/commens");
+var notificationRouter = require("./routes/user/notification");
 var app = express();
 var url = "mongodb://localhost:27017/EnergyMoblie";
 // var ur = 'mongodb://localhost:27017/ClassRoom?readPreference=primary&appname=MongoDB%20Compass&ssl=false'
@@ -75,9 +75,9 @@ app.use("/cart", cartRouter);
 app.use("/store", storeRouter);
 app.use("/bill", billRouter);
 app.use("/api", apisRouter);
-app.use("/like",likeRouter);
-app.use("/comment",commentRouter);
-app.use("/notification",notificationRouter)
+app.use("/like", likeRouter);
+app.use("/comment", commentRouter);
+app.use("/notification", notificationRouter);
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));

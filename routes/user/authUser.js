@@ -16,9 +16,9 @@ router.post("/login", async (req, res) => {
   res.json(users);
 });
 
-router.get("/forgotPWD/:email", async (req, res) => {
-  const { email } = req.params;
-  const user = await userModel.findOne({ email_user: email });
+router.get("/forgotPWD/:phone", async (req, res) => {
+  const { phone } = req.params;
+  const user = await userModel.findOne({ phone_user: phone });
   if (user) {
     if (user.phone_user !== null) {
       client.verify
