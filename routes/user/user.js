@@ -56,30 +56,6 @@ router.post("/edit-user/:id", middle, async function (req, res, next) {
   }
 });
 
-//tao User
-router.post("/", async function (req, res, next) {
-  let { body } = req;
-  let users = await userController.addNew(body, res);
-  if (users.status === 1) {
-    res.status(200).json(users);
-  } else {
-    res.status(404).json(users);
-  }
-});
-module.exports = router;
-
-//tao User
-router.get("/admin/:id", async function (req, res, next) {
-  let { id } = req.params;
-  console.log(id + "id");
-  let users = await userController.getUserById(id);
-  if (users.status === 1) {
-    res.status(200).json(users);
-  } else {
-    res.status(404).json(users);
-  }
-});
-
 router.get("/active/:id", async function (req, res, next) {
   let { id } = req.params;
   let users = await userController.blockUser(id);

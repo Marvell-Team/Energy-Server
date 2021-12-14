@@ -16,6 +16,59 @@ router.post("/login", async (req, res) => {
   res.json(users);
 });
 
+//register
+
+//tao User
+router.get("/admin/:id", async function (req, res, next) {
+  let { id } = req.params;
+  console.log(id + "id");
+  let users = await userController.getUserById(id);
+  if (users.status === 1) {
+    res.status(200).json(users);
+  } else {
+    res.status(404).json(users);
+  }
+});
+
+router.get("/PhoneOTP/:phone", async (req, res) => {
+  const { phone } = req.params;
+  const user = await userModel.findOne({ phone_user: phone });
+  if (user) {
+    res.status(404).json({ status: -1, error: "Số điện thoại này đã sử dụng" });
+  } else {
+    client.verify
+      .services(config.serviceID)
+      .verifications.create({
+        to: `+84${phone}`,
+        channel: "sms",
+      })
+      .then((data) => {
+        res.status(200).json(data);
+      });
+  }
+});
+router.post("/verifyRegister", async (req, res) => {
+  const { code, phoneNumber } = req.body;
+  client.verify
+    .services(config.serviceID)
+    .verificationChecks.create({
+      to: `+84${phoneNumber}`,
+      code: code,
+    })
+    .then((data) => {
+      if (data.valid) {
+        res.status(200).json({ status: 1, data: data });
+      } else {
+        res
+          .status(404)
+          .json({ status: -1, error: "Code sai .Xin vui lòng nhập lại" });
+      }
+    })
+    .catch((error) => {
+      res.status(404).json({ status: -1, error: "Code đã quá hạn" });
+    });
+});
+
 router.get("/forgotPWD/:phone", async (req, res) => {
   const { phone } = req.params;
   const user = await userModel.findOne({ phone_user: phone });
@@ -28,9 +81,11 @@ router.get("/forgotPWD/:phone", async (req, res) => {
           channel: "sms",
         })
         .then((data) => {
-          res.status(200).json(data);
+          res.status(200).json({ status: 1, data: data });
         });
     }
+  } else {
+    res.status(200).json({ status: -1, error: "Không tìm thấy người dùng" });
   }
 });
 
