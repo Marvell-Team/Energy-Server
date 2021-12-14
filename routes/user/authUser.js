@@ -17,7 +17,15 @@ router.post("/login", async (req, res) => {
 });
 
 //register
-
+router.post("/", async function (req, res, next) {
+  let { body } = req;
+  let users = await userController.addNew(body, res);
+  if (users.status === 1) {
+    res.status(200).json(users);
+  } else {
+    res.status(404).json(users);
+  }
+});
 //tao User
 router.get("/admin/:id", async function (req, res, next) {
   let { id } = req.params;
@@ -74,6 +82,7 @@ router.get("/forgotPWD/:phone", async (req, res) => {
   const user = await userModel.findOne({ phone_user: phone });
   if (user) {
     if (user.phone_user !== null) {
+      console.log(phone);
       client.verify
         .services(config.serviceID)
         .verifications.create({
@@ -82,10 +91,13 @@ router.get("/forgotPWD/:phone", async (req, res) => {
         })
         .then((data) => {
           res.status(200).json({ status: 1, data: data });
+        })
+        .catch((error) => {
+          res.status(404).json({ status: -1, error: error });
         });
     }
   } else {
-    res.status(200).json({ status: -1, error: "Không tìm thấy người dùng" });
+    res.status(404).json({ status: -1, error: "Không tìm thấy người dùng" });
   }
 });
 
