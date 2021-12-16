@@ -141,6 +141,24 @@ router.post("/resetPWD", async (req, res) => {
     res.status(404).json({ status: -1, error: "Có lỗi xảy ra" });
   }
 });
+router.post("/changePWD", async (req, res) => {
+  try {
+    const { newPassWord, id_user, oldPass } = req.body;
+    const user = await userModel.findById(id_user);
+    console.log(oldPass + "aa" + user.pwd_user);
+    if (parseInt(oldPass) === parseInt(user.pwd_user)) {
+      user.pwd_user = newPassWord;
+      await user.save();
+      res.status(200).json({ status: 1, data: user });
+    } else {
+      res
+        .status(200)
+        .json({ status: -1, error: "Mật khẩu cũ không trùng khớp" });
+    }
+  } catch (error) {
+    res.status(404).json({ status: -1, error: "Có lỗi xảy ra" });
+  }
+});
 
 let transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
