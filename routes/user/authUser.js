@@ -158,9 +158,7 @@ let transporter = nodemailer.createTransport({
 
 router.get("/Email/:email", async (req, res) => {
   const { email } = req.params;
-  var OTP = Math.random();
-  OTP = OTP * 1000000;
-  OTP = parseInt(OTP);
+  var OTP = Math.floor(100000 + Math.random() * 900000);
   const user = await userModel.findOne({
     email_user: email,
   });
